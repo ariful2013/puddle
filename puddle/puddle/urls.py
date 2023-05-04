@@ -22,10 +22,18 @@ from core.views import index, contact
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+# urlpatterns = [
+#     path('', index, name="index"),
+#     path('items/', include('item.urls')),
+#     path('contact/', contact, name="contact"),
+#     path('admin/', admin.site.urls),
+# ]
+
+# Re Organized by App Name
 urlpatterns = [
-    path('', index, name="index"),
+    path('', include('core.urls')),
     path('items/', include('item.urls')),
-    path('contact/', contact, name="contact"),
     path('admin/', admin.site.urls),
 ]
 
