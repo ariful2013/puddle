@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+  Search Item
+{% endblock %}
+
+{% block content %}
+  <div class="p-3 grid grid-cols-4 gap-4 bg-gray-100">
+    <div class="col-span-1">
+      {% url 'search:items' as url_search %}
+      <form method="get" action="{{ url_search }}">
+        <input name="query" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{ query }}" placeholder="Find Here" />
+        <button class="mt-2 py-3 px-8 text-lg bg-teal-500 text-white rounded-xl hover:bg-teal-700">Search</button>
+      </form>
+      <hr class="my-6" />
+      <p class="font-semibold">Categories</p>
+      <ul>
+        {% for category in categories %}
+          {% if category.id == category_id %}
+            <li class="p-2 rounded-xl bg-gray-200">
+              <a href="{{ url_search }}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+            </li>
+          {% else %}
+            <li class="p-2 rounded-xl">
+              <a href="{{ url_search }}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <hr class="my-6" />
+      <p class="font-semibold">Clear Search</p>
+      <a href="{{ url_search }}" class="mt-2 py-4 px-8 inline-block bg-yellow-500 text-lg rounded-xl text-white">Clear</a>
+    </div>
+
+    <div class="col-span-3">
+      <div class="grid grid-cols-3 gap-3">
+        {% for item in items %}
+          <div>
+            {% url 'item:detail' item.id as item_url %}
+            <a href="{{ item_url }}">
+              <div>
+                <img src="{{ item.image.url }}" class="rounded-t-xl" alt="Item" />
+              </div>
+              <div class="p-6 bg-white rounded-b-xl">
+                <h2 class="text-2xl">{{ item.name }}</h2>
+                <p class="text-gray-500">Price: ${{ item.price }}</p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
